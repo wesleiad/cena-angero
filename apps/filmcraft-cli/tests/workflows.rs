@@ -1,5 +1,5 @@
 //! Workflow acceptance tests (docs/gaps.md G6): real editing jobs done end to end the way an agent
-//! does them, through the headless MCP server of the `filmcraft-cli` binary (`filmcraft-cli mcp`,
+//! does them, through the headless MCP server of the `cena-cli` binary (`cena-cli mcp`,
 //! JSON-RPC over stdio) and the CLI itself, on media that looks like what people shoot:
 //!
 //! - a phone clip: H.264 + AAC in MP4 with a variable frame rate (dropped frames);
@@ -87,7 +87,7 @@ impl Drop for Scratch {
 }
 
 // ---------------------------------------------------------------------------------------------
-// A minimal MCP client for `filmcraft-cli mcp` (newline-delimited JSON-RPC over stdio)
+// A minimal MCP client for `cena-cli mcp` (newline-delimited JSON-RPC over stdio)
 
 struct Mcp {
     child: Child,
@@ -106,7 +106,7 @@ impl Mcp {
             .stdout(Stdio::piped())
             .stderr(Stdio::null())
             .spawn()
-            .expect("spawn filmcraft-cli mcp");
+            .expect("spawn cena-cli mcp");
         let stdin = child.stdin.take().unwrap();
         let stdout = BufReader::new(child.stdout.take().unwrap());
         let mut m = Mcp { child, stdin, stdout, next_id: 1 };
@@ -375,7 +375,7 @@ fn phone_vfr_clip_extract_gain_title_to_h264_mp4() {
 /// Camera footage: import a long-GOP H.264 Matroska file with two audio tracks through MCP, make
 /// a sequence (both tracks land on A1 and A2), ripple-trim 2.6 s off the head (decoding starts at
 /// the only keyframe) and 15 frames off the tail, add a red colour matte with a centred cross
-/// dissolve, save the project; then a new `filmcraft-cli` process opens it and exports ProRes.
+/// dissolve, save the project; then a new `cena-cli` process opens it and exports ProRes.
 /// The first exported frame is source frame 65, the dissolve mixes the two pictures, both audio
 /// tracks are in the mix at their own level and stop where the clip does.
 #[test]
@@ -480,7 +480,7 @@ fn camera_long_gop_two_audio_tracks_trim_dissolve_to_prores() {
 }
 
 /// `endFrame` of the first clip on V1 of the saved project's active sequence, read back through
-/// `filmcraft-cli --project … inspect sequence`.
+/// `cena-cli --project … inspect sequence`.
 fn end_frame_of(project: &str) -> Option<u64> {
     let o = Command::new(env!("CARGO_BIN_EXE_filmcraft-cli")).args(["--project", project, "inspect", "sequence"]).output().ok()?;
     let v: Value = serde_json::from_slice(&o.stdout).ok()?;

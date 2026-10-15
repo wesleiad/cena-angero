@@ -338,8 +338,8 @@ impl WriterConfig {
             timecode: None,
             ids,
             first_track_id: 2,
-            company: "FilmCraft".into(),
-            product: "FilmCraft".into(),
+            company: "Cena-Angero".into(),
+            product: "Cena-Angero".into(),
             version: env!("CARGO_PKG_VERSION").into(),
             modified: Timestamp::default(),
         }

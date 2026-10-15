@@ -4,7 +4,7 @@ description = "FilmCraft desktop app"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
-default-run = "filmcraft"
+default-run = "cena"
 build = "build.rs"
 
 [lints]
@@ -60,3 +60,7 @@ zbus = "5.19"
 # Icon + VERSIONINFO for filmcraft.exe (build.rs); only needed when building on Windows.
 [target.'cfg(windows)'.build-dependencies]
 winresource = "0.1"
+
+[[bin]]
+name = "cena"
+path = "src/main.rs"

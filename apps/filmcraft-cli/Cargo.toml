@@ -9,7 +9,7 @@ license.workspace = true
 workspace = true
 
 [[bin]]
-name = "filmcraft-cli"
+name = "cena-cli"
 path = "src/main.rs"
 
 [features]

@@ -503,7 +503,7 @@ pub fn default_data_dir() -> Option<PathBuf> {
         return env("HOME").map(|h| h.join("Library/Application Support/FilmCraft"));
     }
     if cfg!(windows) {
-        return env("APPDATA").map(|h| h.join("FilmCraft"));
+        return env("APPDATA").map(|h| h.join("Cena-Angero"));
     }
     env("XDG_DATA_HOME").map(|d| d.join("filmcraft")).or_else(|| env("HOME").map(|h| h.join(".local/share/filmcraft")))
 }

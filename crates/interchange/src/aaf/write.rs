@@ -333,12 +333,12 @@ pub(crate) fn write(doc: &Document, version: filmcraft_cfb::Version, report: &mu
         content.set(pid::ESSENCE_DATA, Value::StrongSet(essence, pid::ESSENCE_MOB_ID));
     }
     let ident = Obj::new(cls::IDENTIFICATION)
-        .data_prop(pid::COMPANY_NAME, utf16z("FilmCraft"))
-        .data_prop(pid::PRODUCT_NAME, utf16z("FilmCraft"))
+        .data_prop(pid::COMPANY_NAME, utf16z("Cena-Angero"))
+        .data_prop(pid::PRODUCT_NAME, utf16z("Cena-Angero"))
         .data_prop(pid::PRODUCT_VERSION_STRING, utf16z(env!("CARGO_PKG_VERSION")))
         .data_prop(pid::PRODUCT_ID, super::ids::guid(0x46494C4D, 0x4352, 0x4146, *b"T-AAF-EP").to_vec())
         .data_prop(pid::DATE, timestamp())
-        .data_prop(pid::PLATFORM, utf16z("FilmCraft"))
+        .data_prop(pid::PLATFORM, utf16z("Cena-Angero"))
         .data_prop(pid::GENERATION_AUID, mob_id(seed, 0)[16..].to_vec());
     let header = Obj::new(cls::HEADER)
         .data_prop(pid::BYTE_ORDER, 0x4949i16.to_le_bytes().to_vec())

@@ -6,7 +6,7 @@ use std::process::{Command, Output, Stdio};
 use serde_json::Value;
 
 fn cli(args: &[&str]) -> Output {
-    Command::new(env!("CARGO_BIN_EXE_filmcraft-cli")).args(args).output().expect("spawn filmcraft-cli")
+    Command::new(env!("CARGO_BIN_EXE_filmcraft-cli")).args(args).output().expect("spawn cena-cli")
 }
 
 fn json_out(o: &Output) -> Value {
@@ -29,7 +29,7 @@ fn help_and_usage_errors() {
 
 #[test]
 fn version_after_global_options() {
-    let want = format!("filmcraft-cli {}\n", env!("CARGO_PKG_VERSION"));
+    let want = format!("cena-cli {}\n", env!("CARGO_PKG_VERSION"));
     for args in [&["--version"][..], &["-V"], &["version"], &["--demo", "--version"], &["--compact", "-V"], &["--demo", "version"]] {
         let o = cli(args);
         assert!(o.status.success(), "{args:?}: {}", String::from_utf8_lossy(&o.stderr));
@@ -245,7 +245,7 @@ fn export_with_presets() {
     let _ = std::fs::remove_dir_all(&dir);
 }
 
-/// `filmcraft-cli commands | head -c 10` panicked with "failed printing to stdout: Broken pipe
+/// `cena-cli commands | head -c 10` panicked with "failed printing to stdout: Broken pipe
 /// (os error 32)" and exit status 101 (#285).
 #[test]
 fn closed_stdout_ends_quietly() {
