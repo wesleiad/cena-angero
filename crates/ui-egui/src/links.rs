@@ -18,7 +18,7 @@ pub const GITHUB: &str = "https://github.com/wesleiad/cena-angero";
 pub const ISSUES: &str = "https://github.com/wesleiad/cena-angero";
 
 /// (command id, label, url) for every link, in menu order.
-pub const ALL: [(&str, &str, &str); 5] = [
+pub const ALL: [(&str, &str, &str); 4] = [
     ("help.website", "ArtCraft Website", WEBSITE),
     ("help.appPage", "FilmCraft on getartcraft.com", APP_PAGE),
     ("help.github", "FilmCraft on GitHub", GITHUB),
