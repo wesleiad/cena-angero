@@ -35,8 +35,8 @@ use crate::FilmcraftApp;
 use crate::i18n::t;
 use crate::state::SequenceSettingsDraft;
 
-const NOT_YET: &str = "Not supported in FilmCraft yet";
-const LINEAR: &str = "FilmCraft always composites in linear light";
+const NOT_YET: &str = "Ainda não disponível no Cena";
+const LINEAR: &str = "O Cena sempre compõe em luz linear";
 
 /// The Timebase list (frames per second as num/den), Premiere's common rates.
 const TIMEBASES: [(i64, i64); 15] = [

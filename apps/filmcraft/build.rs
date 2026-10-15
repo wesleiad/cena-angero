@@ -21,6 +21,7 @@ mod windows {
         let mut res = winresource::WindowsResource::new();
         res.set_icon("../../assets/app-icon/filmcraft.ico")
             .set("ProductName", "Cena - Angerô")
+        .set("CompanyName", "Grupo Angerô")
             .set("FileDescription", "Cena - Angerô")
             .set("LegalCopyright", "Grupo Angerô. MIT OR Apache-2.0 (ver NOTICE).")
             .set("OriginalFilename", "cena.exe")
