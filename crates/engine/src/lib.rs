@@ -576,6 +576,19 @@ impl Session {
     pub fn start_autosave(&mut self, cfg: autosave::AutosaveConfig) -> std::io::Result<()> {
         let prefs_path = cfg.data_dir.join("preferences.json");
         self.prefs = autosave::Preferences::load(&prefs_path);
+        // Angerô: a identidade "Lua Nova" (tema claro) é o padrão; uma vez por instalação, quem vinha
+        // com o tema de antes passa para ela, e o realce azul antigo vira o anil da Angerô.
+        if self.prefs.appearance.angero_tema < 1 {
+            let a = &mut self.prefs.appearance;
+            a.appearance_mode = "light".into();
+            a.light_theme = "light".into();
+            a.color_theme = "light".into();
+            if a.highlight_color.eq_ignore_ascii_case("#2f6bdf") {
+                a.highlight_color = crate::settings::DEFAULT_HIGHLIGHT.into();
+            }
+            a.angero_tema = 1;
+            let _ = self.prefs.save(&prefs_path);
+        }
         self.prefs.apply_hardware_decoding();
         self.media.set_use_proxies(self.prefs.media.enable_proxies);
         self.shortcuts.set_dir(&cfg.data_dir);

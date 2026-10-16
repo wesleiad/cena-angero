@@ -630,8 +630,9 @@ fn drop_import_to_timeline_is_in_the_settings_registry() {
 #[test]
 fn appearance_defaults_and_legacy_theme_migrate() {
     let a = Preferences::default().appearance;
-    assert_eq!((a.appearance_mode.as_str(), a.dark_theme.as_str(), a.light_theme.as_str()), ("dark", "darkest", "light"));
-    assert_eq!(a.shown_theme(Some(true)), "darkest", "Dark mode ignores a light system");
+    // Angerô: new users get the light "Lua Nova" theme.
+    assert_eq!((a.appearance_mode.as_str(), a.dark_theme.as_str(), a.light_theme.as_str()), ("light", "darkest", "light"));
+    assert_eq!(a.shown_theme(Some(false)), "light", "Light mode ignores a dark system");
     let dir = tmp_dir("prefs-appearance-migrate");
     let path = dir.join("preferences.json");
     for (theme, mode, dark, light) in [("darkest", "dark", "darkest", "light"), ("dark", "dark", "dark", "light"), ("light", "light", "darkest", "light")] {
@@ -683,7 +684,7 @@ fn appearance_choices_validate_and_legacy_theme_still_selects() {
     set(&mut s, "appearance.colorTheme", json!("light"));
     assert_eq!((s.prefs.appearance.appearance_mode.as_str(), s.prefs.appearance.color_theme.as_str()), ("light", "light"));
     // the header button's cycle
-    let mut a = settings::AppearancePrefs::default();
+    let mut a = settings::AppearancePrefs { appearance_mode: "dark".into(), ..settings::AppearancePrefs::default() };
     let mut seen = Vec::new();
     for _ in 0..4 {
         a.appearance_mode = a.next_mode().into();

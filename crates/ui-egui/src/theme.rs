@@ -269,7 +269,7 @@ impl Tokens {
                 tab_text_active: Color32::from_rgb(0x1E, 0x23, 0x4D),
                 text: Color32::from_rgb(0x1E, 0x23, 0x4D),
                 text_dim: Color32::from_rgb(0x4E, 0x54, 0x78),
-                text_faint: Color32::from_rgb(0x8A, 0x8D, 0xA8),
+                text_faint: Color32::from_rgb(0x58, 0x5C, 0x7C),
                 icon: Color32::from_rgb(0x2B, 0x3A, 0x8F),
                 hover: Color32::from_rgb(0xEB, 0xE5, 0xF5),
                 pressed: Color32::from_rgb(0xDC, 0xD5, 0xEE),
@@ -431,6 +431,14 @@ pub fn install(ctx: &egui::Context, t: &Tokens) {
     fonts.families.insert(FontFamily::Name("medium".into()), vec!["inter-medium".into(), "inter".into()]);
     // Japanese before Chinese: the two share code points, and Japanese text must keep Japanese
     // glyph forms; Chinese faces still cover the hanzi Japanese fonts lack
+    // Angerô: a Montserrat não tem alguns símbolos (setas, ▸, ✓…) que a fonte anterior tinha; ela
+    // fica logo depois, de reserva, em toda pilha que começa pela Montserrat.
+    fonts.font_data.insert("AngeroReserva".into(), Arc::new(FontData::from_static(filmcraft_text::fonts::INTER_REGULAR)));
+    for stack in fonts.families.values_mut() {
+        if let Some(i) = stack.iter().position(|n| n.starts_with("inter")) {
+            stack.insert(i + 1, "AngeroReserva".into());
+        }
+    }
     add_craft_fonts(&mut fonts);
     crate::cjk::install(&mut fonts);
     crate::rtl::install(&mut fonts);

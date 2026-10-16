@@ -1485,19 +1485,6 @@ pub fn sanitize(v: &mut Value, defaults: &Value) {
 /// Upgrade an older preferences file (`version` missing = v1) to [`PREFS_VERSION`].
 pub fn migrate(v: &mut Value) {
     let Some(m) = v.as_object_mut() else { return };
-    // Angerô: a identidade "Lua Nova" (tema claro) é o padrão; uma vez por instalação, quem vinha
-    // com o tema de antes passa para ela, e o realce azul antigo vira o anil da Angerô.
-    if let Some(a) = m.get_mut("appearance").and_then(Value::as_object_mut)
-        && a.get("angeroTema").and_then(Value::as_u64).unwrap_or(0) < 1
-    {
-        a.insert("appearanceMode".into(), Value::from("light"));
-        a.insert("lightTheme".into(), Value::from("light"));
-        a.insert("colorTheme".into(), Value::from("light"));
-        if a.get("highlightColor").and_then(Value::as_str).is_none_or(|c| c.eq_ignore_ascii_case("#2f6bdf")) {
-            a.insert("highlightColor".into(), Value::from(DEFAULT_HIGHLIGHT));
-        }
-        a.insert("angeroTema".into(), Value::from(1u64));
-    }
     let ver = m.get("version").and_then(Value::as_u64).unwrap_or(1);
     if ver < 2 {
         // v1 kept the Trim Monitor's loop choice and pre/postroll; v2 adds every other category
