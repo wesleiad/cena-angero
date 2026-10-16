@@ -42,14 +42,14 @@ pub fn add_generator(p: &mut Project, pool: &MediaPool, src: GeneratorSource, na
 pub fn demo_project(pool: &MediaPool) -> (Project, ItemId) {
     build_demo(pool).unwrap_or_else(|| {
         // Only reachable if the built-in items could not be placed: an empty demo, not a crash.
-        let mut p = Project::new("FilmCraft Demo");
-        let seq = p.new_sequence("Main Edit", SequenceSettings::default(), 3, 3, None);
+        let mut p = Project::new("Projeto de exemplo");
+        let seq = p.new_sequence("Edição principal", SequenceSettings::default(), 3, 3, None);
         (p, seq)
     })
 }
 
 fn build_demo(pool: &MediaPool) -> Option<(Project, ItemId)> {
-    let mut p = Project::new("FilmCraft Demo");
+    let mut p = Project::new("Projeto de exemplo");
     let footage = p.add_bin("Footage", None);
     let audio_bin = p.add_bin("Audio", None);
     let gfx = p.add_bin("Graphics", None);
@@ -103,7 +103,7 @@ fn build_demo(pool: &MediaPool) -> Option<(Project, ItemId)> {
 
     let settings = SequenceSettings::default();
     let r = settings.frame_rate;
-    let seq = p.new_sequence("Main Edit", settings, 3, 3, Some(seqs));
+    let seq = p.new_sequence("Edição principal", settings, 3, 3, Some(seqs));
     let _rough = p.new_sequence("Rough Cut", SequenceSettings::default(), 3, 2, Some(seqs));
 
     // V1 edit: (clip index, source in s, duration s)

@@ -1137,7 +1137,7 @@ fn build() -> Vec<CommandSpec> {
     let mut v = vec![
         // ================= File =================
         cmd!("file.newProject", "Project…", ["File", "New"], Some("Cmd+Alt+N"), r#"{"name":str}"#, always, |s, p| {
-            let name = str_p(p, "name").unwrap_or("Untitled").to_string();
+            let name = str_p(p, "name").unwrap_or("Sem título").to_string();
             s.project = std::sync::Arc::new(filmcraft_project::Project::new(&name));
             s.history = Default::default();
             s.history.limit = 200;

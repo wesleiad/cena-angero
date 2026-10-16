@@ -180,7 +180,7 @@ fn close_commands_and_templates() {
     s.execute("file.closeAllProjects", json!({"force": true})).unwrap();
     assert!(s.project.items.is_empty());
     s.execute("file.newProjectFromTemplate", json!({"template": path, "name": "Ep 2"})).unwrap();
-    assert!(s.project.items.values().any(|i| i.name == "Main Edit"));
+    assert!(s.project.items.values().any(|i| i.name == "Edição principal"));
     assert_eq!(s.project.items.len(), n);
     assert_eq!(s.project.name, "Ep 2");
     assert!(s.path.is_none() && !s.is_dirty());

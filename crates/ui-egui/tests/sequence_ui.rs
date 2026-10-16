@@ -512,7 +512,7 @@ fn sequence_settings_dialog_shows_the_sequence() {
     assert_eq!(r["dialog"], "sequenceSettings", "{r}");
     d.frames(3);
     for (id, shown) in [
-        ("sequenceSettings.name", "Main Edit"),
+        ("sequenceSettings.name", "Edição principal"),
         ("sequenceSettings.editingMode", "Custom"),
         ("sequenceSettings.timebase", "23.976 frames/second"),
         ("sequenceSettings.width", "1920"),
