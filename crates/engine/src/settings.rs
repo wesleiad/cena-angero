@@ -109,19 +109,22 @@ pub struct AppearancePrefs {
     /// "UI Scale": `auto` (default: the scale the operating system reports) or a fixed
     /// percentage of [`UI_SCALES`] (`100` = one point per physical pixel).
     pub ui_scale: String,
+    /// Angerô: 1 depois que o tema Lua Nova foi aplicado uma vez (0 nas preferências antigas).
+    pub angero_tema: u32,
 }
 
 impl Default for AppearancePrefs {
     fn default() -> Self {
         Self {
-            color_theme: "darkest".into(),
-            appearance_mode: "dark".into(),
+            color_theme: "light".into(),
+            appearance_mode: "light".into(),
             dark_theme: "darkest".into(),
             light_theme: "light".into(),
             favorite_themes: Vec::new(),
             accessible_contrast: false,
             highlight_color: DEFAULT_HIGHLIGHT.into(),
             ui_scale: "auto".into(),
+            angero_tema: 0,
         }
     }
 }
@@ -174,7 +177,8 @@ impl AppearancePrefs {
     }
 }
 
-pub const DEFAULT_HIGHLIGHT: &str = "#2f6bdf";
+/// Angerô: o anil médio da Angerô (legível nos temas claro e escuro).
+pub const DEFAULT_HIGHLIGHT: &str = "#4a64c0";
 
 /// Settings ▸ Audio Hardware (the cpal output on desktop).
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
@@ -921,7 +925,7 @@ pub const UI_SCALES: &[(&str, &str)] = &[
     ("300", "300%"),
 ];
 pub const DARK_THEMES: &[(&str, &str)] = &[("darkest", "Darkest"), ("dark", "Dark")];
-pub const LIGHT_THEMES: &[(&str, &str)] = &[("light", "Light")];
+pub const LIGHT_THEMES: &[(&str, &str)] = &[("light", "Lua Nova (Angerô)")];
 const MIXDOWN: &[(&str, &str)] = &[("front", "Front Only"), ("frontRear", "Front + Rear"), ("frontLfe", "Front + LFE"), ("frontRearLfe", "Front + Rear + LFE")];
 const AUDITION: &[(&str, &str)] = &[("scratch", "Scratch disk location for Captured Audio"), ("nextToMedia", "Next to original media files")];
 const BUFFERS: &[(&str, &str)] = &[("64", "64"), ("128", "128"), ("256", "256"), ("512", "512"), ("1024", "1024"), ("2048", "2048"), ("4096", "4096")];
@@ -1481,6 +1485,19 @@ pub fn sanitize(v: &mut Value, defaults: &Value) {
 /// Upgrade an older preferences file (`version` missing = v1) to [`PREFS_VERSION`].
 pub fn migrate(v: &mut Value) {
     let Some(m) = v.as_object_mut() else { return };
+    // Angerô: a identidade "Lua Nova" (tema claro) é o padrão; uma vez por instalação, quem vinha
+    // com o tema de antes passa para ela, e o realce azul antigo vira o anil da Angerô.
+    if let Some(a) = m.get_mut("appearance").and_then(Value::as_object_mut)
+        && a.get("angeroTema").and_then(Value::as_u64).unwrap_or(0) < 1
+    {
+        a.insert("appearanceMode".into(), Value::from("light"));
+        a.insert("lightTheme".into(), Value::from("light"));
+        a.insert("colorTheme".into(), Value::from("light"));
+        if a.get("highlightColor").and_then(Value::as_str).is_none_or(|c| c.eq_ignore_ascii_case("#2f6bdf")) {
+            a.insert("highlightColor".into(), Value::from(DEFAULT_HIGHLIGHT));
+        }
+        a.insert("angeroTema".into(), Value::from(1u64));
+    }
     let ver = m.get("version").and_then(Value::as_u64).unwrap_or(1);
     if ver < 2 {
         // v1 kept the Trim Monitor's loop choice and pre/postroll; v2 adds every other category

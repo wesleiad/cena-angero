@@ -100,6 +100,27 @@ pub fn cycle_appearance(app: &mut FilmcraftApp, ctx: &egui::Context) {
 
 /// Favorite shortcuts use a stable light-then-dark order, independently of insertion order.
 pub fn appearance_context_menu(app: &mut FilmcraftApp, ui: &mut Ui) {
+    // Angerô: cor do tema (realce) escolhida aqui mesmo, salva em Aparência › Cor de realce.
+    ui.horizontal(|ui| {
+        ui.label(tl!("Theme color"));
+        let atual = settings::parse_hex(&app.session.prefs.appearance.highlight_color).unwrap_or([0x4a, 0x64, 0xc0]);
+        let mut rgb = atual;
+        if ui.color_edit_button_srgb(&mut rgb).changed() {
+            let hex = format!("#{:02x}{:02x}{:02x}", rgb[0], rgb[1], rgb[2]);
+            if let Err(e) = app.session.execute("prefs.set", json!({"key": "appearance.highlightColor", "value": hex})) {
+                app.ui.status = e.to_string();
+            }
+            app.apply_prefs(ui.ctx());
+        }
+    });
+    if ui.button(tl!("Angerô default colors")).clicked() {
+        if let Err(e) = app.session.execute("prefs.set", json!({"key": "appearance.highlightColor", "value": settings::DEFAULT_HIGHLIGHT})) {
+            app.ui.status = e.to_string();
+        }
+        app.apply_prefs(ui.ctx());
+        ui.close();
+    }
+    ui.separator();
     if ui.button(tl!("Appearance Settings…")).clicked() {
         if let Err(error) = open(app, "appearance") {
             app.ui.status = error;

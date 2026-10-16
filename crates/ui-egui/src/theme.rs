@@ -259,25 +259,26 @@ impl Tokens {
                 hover: Color32::from_rgb(64, 64, 64),
                 ..dark
             },
+            // Angerô: identidade "Lua Nova" (bege, tinta anil); o padrão.
             ThemeKind::Light => Tokens {
-                app_bg: Color32::from_rgb(180, 180, 180),
-                header_bg: Color32::from_rgb(214, 214, 214),
-                panel_bg: Color32::from_rgb(232, 232, 232),
-                tab_bg: Color32::from_rgb(232, 232, 232),
-                tab_text: Color32::from_rgb(90, 90, 90),
-                tab_text_active: Color32::from_rgb(20, 20, 20),
-                text: Color32::from_rgb(34, 34, 34),
-                text_dim: Color32::from_rgb(90, 90, 90),
-                text_faint: Color32::from_rgb(140, 140, 140),
-                icon: Color32::from_rgb(60, 60, 60),
-                hover: Color32::from_rgb(210, 210, 210),
-                pressed: Color32::from_rgb(196, 196, 196),
-                field_bg: Color32::from_rgb(250, 250, 250),
-                field_border: Color32::from_rgb(170, 170, 170),
-                separator: Color32::from_rgb(200, 200, 200),
-                row_alt: Color32::from_rgb(224, 224, 224),
-                row_selected: Color32::from_rgb(170, 200, 240),
-                pill_active_bg: Color32::from_rgb(196, 196, 196),
+                app_bg: Color32::from_rgb(0xD9, 0xD4, 0xC2),
+                header_bg: Color32::from_rgb(0xE9, 0xE6, 0xD8),
+                panel_bg: Color32::from_rgb(0xF7, 0xF5, 0xEC),
+                tab_bg: Color32::from_rgb(0xF7, 0xF5, 0xEC),
+                tab_text: Color32::from_rgb(0x4E, 0x54, 0x78),
+                tab_text_active: Color32::from_rgb(0x1E, 0x23, 0x4D),
+                text: Color32::from_rgb(0x1E, 0x23, 0x4D),
+                text_dim: Color32::from_rgb(0x4E, 0x54, 0x78),
+                text_faint: Color32::from_rgb(0x8A, 0x8D, 0xA8),
+                icon: Color32::from_rgb(0x2B, 0x3A, 0x8F),
+                hover: Color32::from_rgb(0xEB, 0xE5, 0xF5),
+                pressed: Color32::from_rgb(0xDC, 0xD5, 0xEE),
+                field_bg: Color32::from_rgb(0xFF, 0xFF, 0xFF),
+                field_border: Color32::from_rgb(0xC9, 0xC3, 0xB0),
+                separator: Color32::from_rgb(0xE1, 0xDC, 0xCB),
+                row_alt: Color32::from_rgb(0xF0, 0xED, 0xE2),
+                row_selected: Color32::from_rgb(0xDE, 0xE5, 0xFA),
+                pill_active_bg: Color32::from_rgb(0xDC, 0xD5, 0xEE),
                 clip_bar_bg: Color32::from_rgb(190, 203, 224),
                 control_surface: Color32::from_rgb(218, 218, 218),
                 control_well: Color32::from_rgb(196, 196, 196),
@@ -419,9 +420,10 @@ pub fn font_families() -> Vec<FontFamily> {
 /// egui visuals. Document names keep their glyphs in every interface language.
 pub fn install(ctx: &egui::Context, t: &Tokens) {
     let mut fonts = FontDefinitions::default();
-    fonts.font_data.insert("inter".into(), Arc::new(FontData::from_static(filmcraft_text::fonts::INTER_REGULAR)));
-    fonts.font_data.insert("inter-medium".into(), Arc::new(FontData::from_static(filmcraft_text::fonts::INTER_MEDIUM)));
-    fonts.font_data.insert("inter-semibold".into(), Arc::new(FontData::from_static(filmcraft_text::fonts::INTER_SEMIBOLD)));
+    // Angerô: a interface usa Montserrat (identidade Lua Nova); os nomes "inter*" ficam como apelidos.
+    fonts.font_data.insert("inter".into(), Arc::new(FontData::from_static(include_bytes!("../../../assets/fonts/Montserrat-Regular.ttf")).tweak(egui::epaint::text::FontTweak { scale: 0.94, ..Default::default() })));
+    fonts.font_data.insert("inter-medium".into(), Arc::new(FontData::from_static(include_bytes!("../../../assets/fonts/Montserrat-Medium.ttf")).tweak(egui::epaint::text::FontTweak { scale: 0.94, ..Default::default() })));
+    fonts.font_data.insert("inter-semibold".into(), Arc::new(FontData::from_static(include_bytes!("../../../assets/fonts/Montserrat-SemiBold.ttf")).tweak(egui::epaint::text::FontTweak { scale: 0.94, ..Default::default() })));
     fonts.font_data.insert("jbmono".into(), Arc::new(FontData::from_static(filmcraft_text::fonts::JETBRAINS_MONO_REGULAR)));
     fonts.families.entry(FontFamily::Proportional).or_default().insert(0, "inter".into());
     fonts.families.entry(FontFamily::Monospace).or_default().insert(0, "jbmono".into());
